@@ -1,4 +1,5 @@
-﻿using System;
+﻿using SalesmenSettlement.Utility;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
@@ -7,12 +8,13 @@ using System.Linq;
 using System.Linq.Expressions;
 using System.Text;
 using System.Windows.Forms;
+using SalesmenSettlement.LocalService;
 
 namespace SalesmenSettlement.Forms
 {
     public partial class ClientForm : Form
     {
-        private class BindingTest : INotifyPropertyChanged
+        private class BindingTest : NotifyPropertyChanged
         {
             int _value = 0;
             public int Value
@@ -23,35 +25,22 @@ namespace SalesmenSettlement.Forms
                     if (value != _value)
                     {
                         _value = value;
-                        OnPropertyChangedEventHandler(() => this.Text);
+                        OnPropertyChanged(() => this.Text);
                     }
                 }
             }
             public string Text { get { return Value.ToString(); } }
 
-            public event PropertyChangedEventHandler PropertyChanged;
-
-            protected virtual void OnPropertyChangedEventHandler<T>(Expression<Func<T>> expression)
-            {
-                var memberExpress = expression.Body as MemberExpression;
-                if (memberExpress != null)
-                {
-                    if (PropertyChanged != null)
-                    {
-                        PropertyChanged(this, new PropertyChangedEventArgs(memberExpress.Member.Name));
-                    }
-                }
-            }
         }
 
         private int childFormNumber = 0;
 
-        BindingTest test = new BindingTest();
+        BindingTest test = NotifyPropertyChangedProxy<BindingTest>.CreateInstance();
 
         public ClientForm()
         {
             InitializeComponent();
-            Text = SalesmenSettlement.Utility.AppConfig.AppName;
+            Text = AppConfig.GetInstance().AppName;
             LoadIcon();
             DataBindings.Add(new Binding("Text", test, "Text"));
         }

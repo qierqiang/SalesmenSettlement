@@ -1,27 +1,36 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.ComponentModel;
+using System.Linq;
 using System.Linq.Expressions;
+using System.Text;
 
 namespace SalesmenSettlement.Utility
 {
-    public class NotifyPropertyChanged : INotifyPropertyChanged
+    public class NotifyPropertyChanged : MarshalByRefObject, INotifyPropertyChanged
     {
         public event PropertyChangedEventHandler PropertyChanged;
 
-        public virtual void OnPropertyChanged<T>(Expression<Func<T>> expression)
+        public void OnPropertyChanged(string propertyName)
         {
-            if (expression.Body is MemberExpression memberExpress && PropertyChanged != null)
+            if (PropertyChanged != null && !propertyName.IsNullOrWhiteSpace())
+            {
+                PropertyChanged(this, new PropertyChangedEventArgs(propertyName));
+            }
+        }
+
+        public void OnPropertyChanged<T>(Expression<Func<T>> expression)
+        {
+            if (PropertyChanged != null && expression.Body is MemberExpression memberExpress)
             {
                 PropertyChanged(this, new PropertyChangedEventArgs(memberExpress.Member.Name));
             }
         }
 
-        public virtual void OnPropertyChanged(string propertyName)
+        public static T CreateProxy<T>() where T : NotifyPropertyChanged, new()
         {
-            if (PropertyChanged != null)
-            {
-                PropertyChanged(this, new PropertyChangedEventArgs(propertyName));
-            }
+            T t = new T();
+            return NotifyPropertyChangedProxy<T>.CreateInstance(t);
         }
     }
 }

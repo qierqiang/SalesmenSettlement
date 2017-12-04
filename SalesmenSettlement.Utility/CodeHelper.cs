@@ -9,7 +9,12 @@ namespace SalesmenSettlement
     {
         public static bool IsNullOrBlank(this string source)
         {
-            return (source == null) || source.Trim().Length == 0;
+            return string.IsNullOrEmpty(source) || source.Trim().Length == 0;
+        }
+
+        public static bool IsNullOrWhiteSpace(this string source)
+        {
+            return string.IsNullOrEmpty(source) || source.Trim().Length == 0;
         }
     }
 }

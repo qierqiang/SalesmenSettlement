@@ -55,6 +55,8 @@
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
     <Compile Include="CodeHelper.cs" />
+    <Compile Include="NotifyPropertyChanged.cs" />
+    <Compile Include="NotifyPropertyChangedInterceptor.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

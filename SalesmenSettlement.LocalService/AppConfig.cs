@@ -8,7 +8,7 @@ using SalesmenSettlement.Utility;
 
 namespace SalesmenSettlement.LocalService
 {
-    public class AppConfig : NotifyPropertyChanged
+    public class AppConfig
     {
         private static AppConfig _instance;
         private string _appConfigFile = AppDomain.CurrentDomain.BaseDirectory + "appconfig.txt";
@@ -63,7 +63,8 @@ namespace SalesmenSettlement.LocalService
         {
             if (_instance == null)
             {
-                _instance = NotifyPropertyChangedProxy<AppConfig>.CreateInstance(new AppConfig());
+                _instance = new AppConfig();
+                _instance.ReadAll();
             }
             return _instance;
         }

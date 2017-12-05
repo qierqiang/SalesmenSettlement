@@ -3,7 +3,7 @@ using SalesmenSettlement.Utility;
 
 namespace SalesmenSettlement.Model
 {
-    public class UserInfo : NotifyPropertyChanged
+    public class UserInfo : ModelBase
     {
         public string UserID { get; set; }
         public string UserName { get; set; }

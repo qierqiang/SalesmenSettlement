@@ -18,8 +18,10 @@ namespace SalesmenSettlement
         {
             source = source == null ? string.Empty : source;
             MD5 md5 = new MD5CryptoServiceProvider();
-            byte[] result = md5.ComputeHash(System.Text.Encoding.Default.GetBytes(source));
-            return Encoding.Default.GetString(result);
+            byte[] result = md5.ComputeHash(Encoding.Default.GetBytes(source));// Encoding.UTF8.GetBytes(source));
+            return BitConverter.ToString(result).Replace("-", "").ToUpper();//Encoding.UTF8.GetString(result).ToUpper();
         }
+
+        public static bool IsNullOrDbNull(this object source) => source == null || source == DBNull.Value;
     }
 }

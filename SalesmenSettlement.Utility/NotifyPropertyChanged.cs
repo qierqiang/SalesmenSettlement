@@ -11,7 +11,7 @@ namespace SalesmenSettlement.Utility
     {
         public event PropertyChangedEventHandler PropertyChanged;
 
-        public void OnPropertyChanged(string propertyName)
+        public virtual void OnPropertyChanged(string propertyName)
         {
             if (PropertyChanged != null && !propertyName.IsNullOrWhiteSpace())
             {
@@ -19,7 +19,7 @@ namespace SalesmenSettlement.Utility
             }
         }
 
-        public void OnPropertyChanged<T>(Expression<Func<T>> expression)
+        public virtual void OnPropertyChanged<T>(Expression<Func<T>> expression)
         {
             if (expression.Body is MemberExpression memberExpress)
             {

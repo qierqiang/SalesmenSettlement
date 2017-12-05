@@ -77,7 +77,7 @@ namespace ModelGenerator
             _typeMap.Add("text", "string");
             _typeMap.Add("timestamp", "Byte[]");
             _typeMap.Add("tinyint", "int");
-            _typeMap.Add("uniqueidentifier", "string");
+            _typeMap.Add("uniqueidentifier", "Guid");
             _typeMap.Add("varbinary", "object");
             _typeMap.Add("varchar", "string");
             _typeMap.Add("xml", "string");

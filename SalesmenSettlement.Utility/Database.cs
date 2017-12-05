@@ -21,7 +21,7 @@ namespace SalesmenSettlement.Utility
         #region Connection
 
         /// <summary>与数据库的连接Connection实例</summary>
-        public IDbConnection Connection { get; set; }
+        public SqlConnection Connection { get; set; }
 
         /// <summary>保持连接处于打开状态</summary>
         public bool KeepConnectionOpen { get; set; }
@@ -50,7 +50,7 @@ namespace SalesmenSettlement.Utility
         #region Transaction
 
         /// <summary>事务</summary>
-        public IDbTransaction Transaction { get; private set; }
+        public SqlTransaction Transaction { get; private set; }
 
         /// <summary>标记现在开始进行事务处理,在结束事务前所有的操作都会在事务内进行</summary>
         public void BeginTransaction()
@@ -59,7 +59,7 @@ namespace SalesmenSettlement.Utility
                 throw new Exception("当前数据库不支持并行事务");
 
             OpenConnection();
-            IDbTransaction result = this.Connection.BeginTransaction();
+            SqlTransaction result = this.Connection.BeginTransaction();
             this.Transaction = result;
         }
 
@@ -97,17 +97,17 @@ namespace SalesmenSettlement.Utility
             if (sql.IsNullOrWhiteSpace())
                 throw new ArgumentNullException("sql");
 
-            IDbCommand cmd = new SqlCommand();
+            SqlCommand cmd = new SqlCommand();
             cmd.CommandText = sql;
             return ExecuteNonQuery(cmd);
         }
         /// <summary>执行 SQL 语句并返回受影响的行数</summary>
-        public virtual int ExecuteNonQuery(IDbCommand cmd)
+        public virtual int ExecuteNonQuery(SqlCommand cmd)
         {
             return ExecuteNonQuery(cmd, null);
         }
         /// <summary>执行 SQL 语句并返回受影响的行数</summary>
-        public virtual int ExecuteNonQuery(IDbCommand cmd, params IDbDataParameter[] parms)
+        public virtual int ExecuteNonQuery(IDbCommand cmd, params SqlParameter[] parms)
         {
             lock (this)
             {
@@ -143,17 +143,17 @@ namespace SalesmenSettlement.Utility
             if (sql.IsNullOrWhiteSpace())
                 throw new ArgumentNullException("sql");
 
-            IDbCommand cmd = new SqlCommand();
+            SqlCommand cmd = new SqlCommand();
             cmd.CommandText = sql;
             return ExecuteScalar(cmd);
         }
         /// <summary>执行查询，并返回查询所返回的结果集中第一行的第一列。忽略其他列或行。</summary>
-        public virtual object ExecuteScalar(IDbCommand cmd)
+        public virtual object ExecuteScalar(SqlCommand cmd)
         {
             return ExecuteScalar(cmd, null);
         }
         /// <summary>执行查询，并返回查询所返回的结果集中第一行的第一列。忽略其他列或行。</summary>
-        public virtual object ExecuteScalar(IDbCommand cmd, params IDbDataParameter[] parms)
+        public virtual object ExecuteScalar(SqlCommand cmd, params SqlParameter[] parms)
         {
             lock (this)
             {
@@ -161,7 +161,7 @@ namespace SalesmenSettlement.Utility
                     throw new ArgumentNullException("cmd");
 
                 if (parms != null && parms.Length != 0)
-                    foreach (IDbDataParameter param in parms)
+                    foreach (SqlParameter param in parms)
                         cmd.Parameters.Add(param);
 
                 OpenConnection();
@@ -189,17 +189,17 @@ namespace SalesmenSettlement.Utility
             if (sql.IsNullOrWhiteSpace())
                 throw new ArgumentNullException("sql");
 
-            IDbCommand cmd = new SqlCommand();
+            SqlCommand cmd = new SqlCommand();
             cmd.CommandText = sql;
             return ExecuteReader(cmd);
         }
         /// <summary>生成一个 OleDbDataReader</summary>
-        public virtual IDataReader ExecuteReader(IDbCommand cmd)
+        public virtual IDataReader ExecuteReader(SqlCommand cmd)
         {
             return ExecuteReader(cmd, null);
         }
         /// <summary>生成一个 OleDbDataReader</summary>
-        public virtual IDataReader ExecuteReader(IDbCommand cmd, params IDbDataParameter[] parms)
+        public virtual SqlDataReader ExecuteReader(SqlCommand cmd, params SqlParameter[] parms)
         {
             lock (this)
             {
@@ -207,7 +207,7 @@ namespace SalesmenSettlement.Utility
                     throw new ArgumentNullException("cmd");
 
                 if (parms != null && parms.Length != 0)
-                    foreach (IDbDataParameter param in parms)
+                    foreach (SqlParameter param in parms)
                         cmd.Parameters.Add(param);
 
                 OpenConnection();
@@ -229,17 +229,17 @@ namespace SalesmenSettlement.Utility
             if (sql.IsNullOrWhiteSpace())
                 throw new ArgumentNullException("sql");
 
-            IDbCommand cmd = new SqlCommand();
+            SqlCommand cmd = new SqlCommand();
             cmd.CommandText = sql;
             return GetDataSet(cmd);
         }
         /// <summary>执行查询，并返回查询所返回的结果集</summary>
-        public virtual DataSet GetDataSet(IDbCommand cmd)
+        public virtual DataSet GetDataSet(SqlCommand cmd)
         {
             return GetDataSet(cmd, null);
         }
         /// <summary>执行查询，并返回查询所返回的结果集</summary>
-        public virtual DataSet GetDataSet(IDbCommand cmd, params IDbDataParameter[] parms)
+        public virtual DataSet GetDataSet(SqlCommand cmd, params SqlParameter[] parms)
         {
             lock (this)
             {
@@ -247,7 +247,7 @@ namespace SalesmenSettlement.Utility
                     throw new ArgumentNullException("cmd");
 
                 if (parms != null && parms.Length != 0)
-                    foreach (IDbDataParameter param in parms)
+                    foreach (SqlParameter param in parms)
                         cmd.Parameters.Add(param);
 
                 OpenConnection();
@@ -256,7 +256,7 @@ namespace SalesmenSettlement.Utility
                 {
                     cmd.Connection = this.Connection;
                     cmd.Transaction = this.Transaction;
-                    IDbDataAdapter adapter = new SqlDataAdapter();
+                    SqlDataAdapter adapter = new SqlDataAdapter();
                     adapter.SelectCommand = cmd;
                     DataSet result = new DataSet();
                     adapter.Fill(result);
@@ -279,17 +279,17 @@ namespace SalesmenSettlement.Utility
             if (sql.IsNullOrWhiteSpace())
                 throw new ArgumentNullException("sql");
 
-            IDbCommand cmd = new SqlCommand();
+            SqlCommand cmd = new SqlCommand();
             cmd.CommandText = sql;
             return GetDataTable(cmd);
         }
         /// <summary>执行查询，并返回查询所返回的表</summary>
-        public virtual DataTable GetDataTable(IDbCommand cmd)
+        public virtual DataTable GetDataTable(SqlCommand cmd)
         {
             return GetDataTable(cmd, null);
         }
         /// <summary>执行查询，并返回查询所返回的表</summary>
-        public virtual DataTable GetDataTable(IDbCommand cmd, params IDbDataParameter[] parms)
+        public virtual DataTable GetDataTable(SqlCommand cmd, params SqlParameter[] parms)
         {
             lock (this)
             {
@@ -297,7 +297,7 @@ namespace SalesmenSettlement.Utility
                     throw new ArgumentNullException("cmd");
 
                 if (parms != null && parms.Length != 0)
-                    foreach (IDbDataParameter param in parms)
+                    foreach (SqlParameter param in parms)
                         cmd.Parameters.Add(param);
 
                 OpenConnection();
@@ -306,7 +306,7 @@ namespace SalesmenSettlement.Utility
                 {
                     cmd.Connection = this.Connection;
                     cmd.Transaction = this.Transaction;
-                    IDbDataAdapter adapter = new SqlDataAdapter();
+                    SqlDataAdapter adapter = new SqlDataAdapter();
                     adapter.SelectCommand = cmd;
                     DataSet result = new DataSet();
                     adapter.Fill(result);
@@ -327,11 +327,11 @@ namespace SalesmenSettlement.Utility
         /// <summary>执行数据库事务操作</summary>
         public virtual int[] ExecuteTransaction(IEnumerable<string> sqls)
         {
-            IDbCommand[] cmds = new IDbCommand[sqls.Count()];
+            SqlCommand[] cmds = new SqlCommand[sqls.Count()];
 
             for (int i = 0; i < cmds.Length; i++)
             {
-                IDbCommand cmd = new SqlCommand();
+                SqlCommand cmd = new SqlCommand();
                 cmd.CommandText = sqls.ElementAt(i);
                 cmds[i] = cmd;
             }
@@ -339,7 +339,7 @@ namespace SalesmenSettlement.Utility
             return ExecuteTransaction(cmds);
         }
         /// <summary>执行数据库事务操作</summary>
-        public virtual int[] ExecuteTransaction(IEnumerable<IDbCommand> cmds)
+        public virtual int[] ExecuteTransaction(IEnumerable<SqlCommand> cmds)
         {
             lock (this)
             {
@@ -348,7 +348,7 @@ namespace SalesmenSettlement.Utility
 
                 OpenConnection();
 
-                IDbTransaction tran;// = this.Connection.BeginTransaction();
+                SqlTransaction tran;// = this.Connection.BeginTransaction();
 
                 if (this.Transaction != null)
                     tran = this.Transaction;
@@ -361,7 +361,7 @@ namespace SalesmenSettlement.Utility
                 {
                     for (int i = 0; i < result.Length; i++)
                     {
-                        IDbCommand c = cmds.ElementAt(i);
+                        SqlCommand c = cmds.ElementAt(i);
                         c.Connection = this.Connection;
                         c.Transaction = tran;
                         result[i] = c.ExecuteNonQuery();
@@ -386,7 +386,7 @@ namespace SalesmenSettlement.Utility
         }
 
         #endregion
-        
+
         #region GetColumnValues
 
         /// <summary>执行一条语句返回结果的第一列所有的值集合,忽略其实的列</summary>
@@ -395,17 +395,17 @@ namespace SalesmenSettlement.Utility
             if (sql.IsNullOrWhiteSpace())
                 throw new ArgumentNullException("sql");
 
-            IDbCommand cmd = new SqlCommand();
+            SqlCommand cmd = new SqlCommand();
             cmd.CommandText = sql;
             return GetColumnValues<T>(cmd);
         }
         /// <summary>执行一条语句返回结果的第一列所有的值集合,忽略其实的列</summary>
-        public virtual IEnumerable<T> GetColumnValues<T>(IDbCommand cmd)
+        public virtual IEnumerable<T> GetColumnValues<T>(SqlCommand cmd)
         {
             return GetColumnValues<T>(cmd, null);
         }
         /// <summary>执行一条语句返回结果的第一列所有的值集合,忽略其实的列</summary>
-        public virtual IEnumerable<T> GetColumnValues<T>(IDbCommand cmd, params IDbDataParameter[] parms)
+        public virtual IEnumerable<T> GetColumnValues<T>(SqlCommand cmd, params SqlParameter[] parms)
         {
             DataTable dt = this.GetDataTable(cmd, parms);
 

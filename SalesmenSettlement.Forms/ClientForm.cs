@@ -133,5 +133,11 @@ namespace SalesmenSettlement.Forms
             childForm.Show();
             childForm.WindowState = FormWindowState.Maximized;
         }
+
+        private void loginToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            LoginForm loginForm = new LoginForm();
+            loginForm.ShowDialog(this);
+        }
     }
 }

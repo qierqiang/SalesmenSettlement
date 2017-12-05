@@ -9,40 +9,22 @@ using System.Linq.Expressions;
 using System.Text;
 using System.Windows.Forms;
 using SalesmenSettlement.LocalService;
+using SalesmenSettlement.Model;
 
 namespace SalesmenSettlement.Forms
 {
     public partial class ClientForm : Form
     {
-        private class BindingTest : NotifyPropertyChanged
-        {
-            int _value = 0;
-            public int Value
-            {
-                get { return _value; }
-                set
-                {
-                    if (value != _value)
-                    {
-                        _value = value;
-                        OnPropertyChanged(() => this.Text);
-                    }
-                }
-            }
-            public string Text { get { return Value.ToString(); } }
-
-        }
-
         private int childFormNumber = 0;
 
-        BindingTest test = NotifyPropertyChangedProxy<BindingTest>.CreateInstance();
+        UserInfo test = NotifyPropertyChangedProxy<UserInfo>.CreateInstance();
 
         public ClientForm()
         {
             InitializeComponent();
             Text = AppConfig.GetInstance().AppName;
             LoadIcon();
-            DataBindings.Add(new Binding("Text", test, "Text"));
+            DataBindings.Add(new Binding("Text", test, "UserName"));
         }
 
         private void LoadIcon()
@@ -64,7 +46,7 @@ namespace SalesmenSettlement.Forms
             childForm.MdiParent = this;
             childForm.Text = "窗口 " + childFormNumber++;
             childForm.Show();
-            test.Value += 1;
+            test.UserName = "窗口 " + childFormNumber;
         }
 
         private void OpenFile(object sender, EventArgs e)

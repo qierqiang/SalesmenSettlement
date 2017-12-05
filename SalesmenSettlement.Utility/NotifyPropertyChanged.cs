@@ -21,9 +21,9 @@ namespace SalesmenSettlement.Utility
 
         public void OnPropertyChanged<T>(Expression<Func<T>> expression)
         {
-            if (PropertyChanged != null && expression.Body is MemberExpression memberExpress)
+            if (expression.Body is MemberExpression memberExpress)
             {
-                PropertyChanged(this, new PropertyChangedEventArgs(memberExpress.Member.Name));
+                OnPropertyChanged(memberExpress.Member.Name);
             }
         }
 

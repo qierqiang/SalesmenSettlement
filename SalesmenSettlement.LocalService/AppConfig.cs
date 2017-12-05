@@ -22,6 +22,8 @@ namespace SalesmenSettlement.LocalService
 
         public string Version { get; set; }
 
+        public string DefaultPwdMD5 { get; set; }
+
         private AppConfig() { }
 
         private string Read(string key)
@@ -54,6 +56,7 @@ namespace SalesmenSettlement.LocalService
             AppName = Read("系统名称");
             Company = Read("公司名称");
             Version = Read("版本号");
+            DefaultPwdMD5 = Read("默认密码MD5");
         }
 
         public static AppConfig GetInstance()

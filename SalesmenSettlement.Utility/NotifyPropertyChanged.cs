@@ -26,17 +26,5 @@ namespace SalesmenSettlement.Utility
                 OnPropertyChanged(memberExpress.Member.Name);
             }
         }
-
-        public static T CreateProxy<T>() where T : NotifyPropertyChanged, new()
-        {
-            T t = new T();
-            return NotifyPropertyChangedProxy<T>.CreateInstance(t);
-        }
-
-        public static T Impletement<T>(ref T obj) where T: NotifyPropertyChanged
-        {
-            obj = NotifyPropertyChangedProxy<T>.CreateInstance(obj);
-            return obj;
-        }
     }
 }

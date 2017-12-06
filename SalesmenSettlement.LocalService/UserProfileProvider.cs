@@ -9,8 +9,6 @@ namespace SalesmenSettlement.LocalService
 {
     public class UserProfileProvider
     {
-        private static UserProfileProvider _instance;
-
         private Database _db;
 
         public UserProfileProvider(string cnnString)
@@ -58,7 +56,21 @@ namespace SalesmenSettlement.LocalService
         }
 
         //static
+        private static UserProfileProvider _instance;
 
+        public static UserProfileProvider Instance
+        {
+            get
+            {
+                if (_instance == null)
+                {
+                    _instance = new UserProfileProvider(AppConfig.Instance.DatabaseConnectionString);
+                }
+                return _instance;
+            }
+        }
+
+        [Obsolete()]
         public static UserProfileProvider GetInstance()
         {
             if (_instance == null)

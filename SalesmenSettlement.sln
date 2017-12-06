@@ -19,6 +19,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SalesmenSettlement.LocalSer
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ModelGenerator", "ModelGenerator\ModelGenerator.csproj", "{796E4C46-C8A7-45CD-9C41-9CB0EBE492EF}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SalesmenSettlement.Model", "SalesmenSettlement.Model\SalesmenSettlement.Model.csproj", "{2E7D79D1-AFCF-4D91-B1CB-7BAA95168108}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -67,6 +69,14 @@ Global
 		{796E4C46-C8A7-45CD-9C41-9CB0EBE492EF}.Release|Any CPU.Build.0 = Release|Any CPU
 		{796E4C46-C8A7-45CD-9C41-9CB0EBE492EF}.Release|x86.ActiveCfg = Release|x86
 		{796E4C46-C8A7-45CD-9C41-9CB0EBE492EF}.Release|x86.Build.0 = Release|x86
+		{2E7D79D1-AFCF-4D91-B1CB-7BAA95168108}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{2E7D79D1-AFCF-4D91-B1CB-7BAA95168108}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{2E7D79D1-AFCF-4D91-B1CB-7BAA95168108}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{2E7D79D1-AFCF-4D91-B1CB-7BAA95168108}.Debug|x86.Build.0 = Debug|Any CPU
+		{2E7D79D1-AFCF-4D91-B1CB-7BAA95168108}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{2E7D79D1-AFCF-4D91-B1CB-7BAA95168108}.Release|Any CPU.Build.0 = Release|Any CPU
+		{2E7D79D1-AFCF-4D91-B1CB-7BAA95168108}.Release|x86.ActiveCfg = Release|Any CPU
+		{2E7D79D1-AFCF-4D91-B1CB-7BAA95168108}.Release|x86.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

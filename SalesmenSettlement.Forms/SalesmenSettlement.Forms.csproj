@@ -70,6 +70,12 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="AutoEditForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="AutoEditForm.Designer.cs">
+      <DependentUpon>AutoEditForm.cs</DependentUpon>
+    </Compile>
     <Compile Include="ClientForm.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -82,28 +88,50 @@
     <Compile Include="Dashboard.Designer.cs">
       <DependentUpon>Dashboard.cs</DependentUpon>
     </Compile>
+    <Compile Include="EditFormBase.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="ExpandablePanel.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="ExpandablePanel.Designer.cs">
+      <DependentUpon>ExpandablePanel.cs</DependentUpon>
+    </Compile>
+    <Compile Include="HorizontalLine.cs">
+      <SubType>Component</SubType>
+    </Compile>
     <Compile Include="LoginForm.cs">
       <SubType>Form</SubType>
     </Compile>
     <Compile Include="LoginForm.Designer.cs">
       <DependentUpon>LoginForm.cs</DependentUpon>
     </Compile>
+    <Compile Include="Msgbox.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Properties\Resources.Designer.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
       <DependentUpon>Resources.resx</DependentUpon>
     </Compile>
+    <Compile Include="VerticalLine.cs">
+      <SubType>Component</SubType>
+    </Compile>
     <Compile Include="WatermarkTextBox.cs">
       <SubType>Component</SubType>
     </Compile>
   </ItemGroup>
   <ItemGroup>
+    <EmbeddedResource Include="AutoEditForm.resx">
+      <DependentUpon>AutoEditForm.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="ClientForm.resx">
       <DependentUpon>ClientForm.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Dashboard.resx">
       <DependentUpon>Dashboard.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="ExpandablePanel.resx">
+      <DependentUpon>ExpandablePanel.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="LoginForm.resx">
       <DependentUpon>LoginForm.cs</DependentUpon>
@@ -117,6 +145,10 @@
     <ProjectReference Include="..\SalesmenSettlement.LocalService\SalesmenSettlement.LocalService.csproj">
       <Project>{045ec901-5c90-4a10-a43d-eeb95a05b2e9}</Project>
       <Name>SalesmenSettlement.LocalService</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\SalesmenSettlement.Model\SalesmenSettlement.Model.csproj">
+      <Project>{2e7d79d1-afcf-4d91-b1cb-7baa95168108}</Project>
+      <Name>SalesmenSettlement.Model</Name>
     </ProjectReference>
     <ProjectReference Include="..\SalesmenSettlement.Utility\SalesmenSettlement.Utility.csproj">
       <Project>{5e00950d-a17c-4d6d-9381-a761c75f4328}</Project>

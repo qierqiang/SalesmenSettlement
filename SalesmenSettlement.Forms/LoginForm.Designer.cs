@@ -40,6 +40,8 @@
             this.lMsg = new System.Windows.Forms.Label();
             this.panel1 = new System.Windows.Forms.Panel();
             this.timer1 = new System.Windows.Forms.Timer(this.components);
+            this.errorProvider1 = new System.Windows.Forms.ErrorProvider(this.components);
+            ((System.ComponentModel.ISupportInitialize)(this.errorProvider1)).BeginInit();
             this.SuspendLayout();
             // 
             // cRememberPwd
@@ -52,6 +54,7 @@
             this.cRememberPwd.TabIndex = 2;
             this.cRememberPwd.Text = "记住密码(慎用)";
             this.cRememberPwd.UseVisualStyleBackColor = true;
+            this.cRememberPwd.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.cmbUserName_KeyPress);
             // 
             // bLogin
             // 
@@ -97,6 +100,7 @@
             this.cClearLogin.TabIndex = 4;
             this.cClearLogin.Text = "登录后清除所有用户设置";
             this.cClearLogin.UseVisualStyleBackColor = true;
+            this.cClearLogin.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.cmbUserName_KeyPress);
             // 
             // txtPwd
             // 
@@ -111,6 +115,7 @@
             this.txtPwd.TabIndex = 1;
             this.txtPwd.UseSystemPasswordChar = true;
             this.txtPwd.WordWrap = false;
+            this.txtPwd.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.cmbUserName_KeyPress);
             // 
             // cmbUserName
             // 
@@ -124,6 +129,7 @@
             this.cmbUserName.Name = "cmbUserName";
             this.cmbUserName.Size = new System.Drawing.Size(283, 33);
             this.cmbUserName.TabIndex = 0;
+            this.cmbUserName.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.cmbUserName_KeyPress);
             // 
             // lMsg
             // 
@@ -148,14 +154,18 @@
             // 
             // timer1
             // 
-            this.timer1.Interval = 5000;
+            this.timer1.Interval = 3000;
             this.timer1.Tick += new System.EventHandler(this.timer1_Tick);
+            // 
+            // errorProvider1
+            // 
+            this.errorProvider1.ContainerControl = this;
             // 
             // LoginForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(661, 280);
+            this.ClientSize = new System.Drawing.Size(685, 280);
             this.Controls.Add(this.panel1);
             this.Controls.Add(this.lMsg);
             this.Controls.Add(this.cmbUserName);
@@ -171,6 +181,7 @@
             this.Name = "LoginForm";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;
             this.Load += new System.EventHandler(this.LoginForm_Load);
+            ((System.ComponentModel.ISupportInitialize)(this.errorProvider1)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -188,5 +199,6 @@
         private System.Windows.Forms.Label lMsg;
         private System.Windows.Forms.Panel panel1;
         private System.Windows.Forms.Timer timer1;
+        private System.Windows.Forms.ErrorProvider errorProvider1;
     }
 }

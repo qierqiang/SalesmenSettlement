@@ -10,7 +10,6 @@ namespace SalesmenSettlement.LocalService
 {
     public class AppConfig
     {
-        private static AppConfig _instance;
         private string _appConfigFile = AppDomain.CurrentDomain.BaseDirectory + "appconfig.txt";
         private Dictionary<string, string> _configs;
 
@@ -59,6 +58,24 @@ namespace SalesmenSettlement.LocalService
             DefaultPwdMD5 = Read("默认密码MD5");
         }
 
+        //static
+        private static AppConfig _instance;
+
+        public static AppConfig Instance
+        {
+            get
+            {
+                if (_instance == null)
+                {
+                    _instance = new AppConfig();
+                    _instance.ReadAll();
+                }
+                return _instance;
+            }
+        }
+
+        //Obsolete
+        [Obsolete()]
         public static AppConfig GetInstance()
         {
             if (_instance == null)

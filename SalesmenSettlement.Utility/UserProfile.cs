@@ -58,6 +58,16 @@ namespace SalesmenSettlement.Utility
             File.WriteAllText(fileName, content.Encrypt(userName));
         }
 
+        public static T GetAnonymousTypeProfile<T>(string userName, string profileName, T example)
+        {
+            string content = GetProfileContent(userName, profileName);
+            if (content.IsNullOrWhiteSpace())
+            {
+                return default(T);
+            }
+            //cast
+            return JsonConvert.DeserializeAnonymousType<T>(content, example);
+        }
         public static T GetProfile<T>(string userName, string profileName)
         {
             string content = GetProfileContent(userName, profileName);

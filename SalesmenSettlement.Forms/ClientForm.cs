@@ -2,6 +2,7 @@
 using SalesmenSettlement.Model;
 using SalesmenSettlement.Utility;
 using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
@@ -17,14 +18,11 @@ namespace SalesmenSettlement.Forms
     {
         private int childFormNumber = 0;
 
-        UserInfo test = NotifyPropertyChangedProxy<UserInfo>.CreateInstance();
-
         public ClientForm()
         {
             InitializeComponent();
-            Text = AppConfig.GetInstance().AppName;
+            Text = AppConfig.Instance.AppName;
             LoadIcon();
-            DataBindings.Add(new Binding("Text", test, "UserName"));
         }
 
         private void LoadIcon()
@@ -40,13 +38,32 @@ namespace SalesmenSettlement.Forms
             }
         }
 
+        private void LoadWindowState()
+        {
+            var example = new { FormWindowState = FormWindowState.Normal, Location = Point.Empty, Size = Size.Empty };
+            var profile = UserProfile.GetAnonymousTypeProfile(ClientInfo.UserLoginName, "ClientWindow", example);
+            if (profile != null)
+            {
+                WindowState = profile.FormWindowState;
+                if (WindowState != FormWindowState.Maximized)
+                {
+                    Location = profile.Location;
+                    Size = profile.Size;
+                }
+            }
+        }
+        private void SaveWindowState()
+        {
+            var profile = new { FormWindowState = WindowState, Location, Size };
+            UserProfile.Save(ClientInfo.UserLoginName, "ClientWindow", profile);
+        }
+
         private void ShowNewForm(object sender, EventArgs e)
         {
             Form childForm = new Form();
             childForm.MdiParent = this;
             childForm.Text = "窗口 " + childFormNumber++;
             childForm.Show();
-            test.UserName = "窗口 " + childFormNumber;
         }
 
         private void OpenFile(object sender, EventArgs e)
@@ -128,6 +145,13 @@ namespace SalesmenSettlement.Forms
 
         private void ClientForm_Load(object sender, EventArgs e)
         {
+            if (new LoginForm().ShowDialog(this) != DialogResult.OK)
+            {
+                Close();
+                return;
+            }
+
+            LoadWindowState();
             Dashboard childForm = new Dashboard();
             childForm.MdiParent = this;
             childForm.Show();
@@ -138,6 +162,12 @@ namespace SalesmenSettlement.Forms
         {
             LoginForm loginForm = new LoginForm();
             loginForm.ShowDialog(this);
+        }
+
+        private void ClientForm_FormClosed(object sender, FormClosedEventArgs e)
+        {
+            if (!ClientInfo.UserLoginName.IsNullOrWhiteSpace())
+                SaveWindowState();
         }
     }
 }

@@ -12,6 +12,9 @@ namespace SalesmenSettlement
 {
     public static class CodeHelper
     {
+        //string
+        public static string FormatWith(this string source, params object[] args) => string.Format(source, args);
+
         public static bool IsNullOrEmpty(this string source) => string.IsNullOrEmpty(source);
 
         public static bool IsNullOrBlank(this string source) => source.IsNullOrWhiteSpace();
@@ -25,8 +28,6 @@ namespace SalesmenSettlement
             byte[] result = md5.ComputeHash(Encoding.Default.GetBytes(source));// Encoding.UTF8.GetBytes(source));
             return BitConverter.ToString(result).Replace("-", "").ToUpper();//Encoding.UTF8.GetString(result).ToUpper();
         }
-
-        public static bool IsNullOrDbNull(this object source) => source == null || source == DBNull.Value;
 
         public static string Encrypt(this string source, string encryptKey)
         {
@@ -104,5 +105,22 @@ namespace SalesmenSettlement
         }
 
         public static string ToJson<T>(this T source) where T : class => JsonConvert.SerializeObject(source);
+
+        //object
+        public static bool IsNullOrDbNull(this object source) => source == null || source == DBNull.Value;
+
+        //control
+        public static void ShowError(this ErrorProvider provider, Control ctrl, string error)
+        {
+            provider.SetError(ctrl, error);
+            ctrl.Focus();
+            EventHandler action = null;
+            action = (object sender, EventArgs e) =>
+             {
+                 provider.Clear();
+                 ctrl.TextChanged -= action;
+             };
+            ctrl.TextChanged += action;
+        }
     }
 }

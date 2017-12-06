@@ -7,6 +7,8 @@ using System.Linq;
 using System.Text;
 using System.Windows.Forms;
 using SalesmenSettlement.Utility;
+using System.Xml.Linq;
+using System.Reflection;
 
 namespace ModelGenerator
 {
@@ -45,42 +47,54 @@ namespace ModelGenerator
             sb.AppendLine(comboBox1.Text + " : NotifyPropertyChanged\r\n\t{");
             foreach (DataRow r in dt.Rows)
             {
-                sb.AppendLine("\t\tpublic " + _typeMap[r[2].ToString()] + " " + r[0] + " { get; set; }");
+                sb.AppendLine("\t\tpublic " + GetTypeFromDbType(r[2].ToString(), string.Equals(r[1].ToString(), "YES", StringComparison.CurrentCultureIgnoreCase)) + " " + r[0] + " { get; set; }");
             }
             sb.AppendLine("\t}\r\n}");
             richTextBox1.Text = sb.ToString();
         }
 
-        static Dictionary<string, string> _typeMap = new Dictionary<string, string>();
+        static Dictionary<string, string> _typeMap;
 
-        static Form1()
+        static readonly string[] ValueTypes = new string[]
         {
-            _typeMap.Add("bigint", "long");
-            _typeMap.Add("binary", "object");
-            _typeMap.Add("bit", "bool");
-            _typeMap.Add("char", "string");
-            _typeMap.Add("datetime", "DateTime");
-            _typeMap.Add("decimal", "decimal");
-            _typeMap.Add("float", "decimal");
-            _typeMap.Add("image", "object");
-            _typeMap.Add("int", "int");
-            _typeMap.Add("money", "decimal");
-            _typeMap.Add("nchar", "string");
-            _typeMap.Add("ntext", "string");
-            _typeMap.Add("numeric", "decimal");
-            _typeMap.Add("nvarchar", "string");
-            _typeMap.Add("real", "decimal");
-            _typeMap.Add("smalldatetime", "DateTime");
-            _typeMap.Add("sqlint", "int");
-            _typeMap.Add("sqlmoney", "decimal");
-            _typeMap.Add("sql_variant", "object");
-            _typeMap.Add("text", "string");
-            _typeMap.Add("timestamp", "Byte[]");
-            _typeMap.Add("tinyint", "int");
-            _typeMap.Add("uniqueidentifier", "Guid");
-            _typeMap.Add("varbinary", "object");
-            _typeMap.Add("varchar", "string");
-            _typeMap.Add("xml", "string");
+            "long",
+            "bool",
+            "DateTime",
+            "decimal",
+            "double",
+            "int",
+            "float",
+            "short",
+            "byte",
+            "Guid"
+        };
+
+        public static string GetTypeFromDbType(string dbType, bool nullable)
+        {
+            if (_typeMap == null)
+            {
+                XElement root = XElement.Load(AppDomain.CurrentDomain.BaseDirectory + "SqlAndCSharpTypeMapping.xml");
+
+                var custs = (from c in root.Elements("Language")
+                             where c.Attribute("From").Value.Equals("SQL") && c.Attribute("To").Value.Equals("C#")
+                             select c).ToList();
+
+                _typeMap = new Dictionary<string, string>();
+
+                foreach (XElement node in custs.Elements("Type"))
+                {
+                    _typeMap.Add(node.Attribute("From").Value, node.Attribute("To").Value);
+                }
+            }
+
+            string tmp = _typeMap[dbType];
+
+            if (nullable && ValueTypes.Contains(tmp))
+            {
+                tmp += '?';
+            }
+
+            return tmp;
         }
     }
 }

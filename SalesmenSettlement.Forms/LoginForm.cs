@@ -16,7 +16,7 @@ using System.Windows.Forms;
 
 namespace SalesmenSettlement.Forms
 {
-    public partial class LoginForm : Form
+    public partial class LoginForm : EditFormBase
     {
         private Dictionary<string, string> _userHistory = new Dictionary<string, string>();
 
@@ -27,16 +27,28 @@ namespace SalesmenSettlement.Forms
             InitializeComponent();
             InitViewModel();
             DataBind();
+
+            try
+            {
+                Icon ico = new Icon(AppDomain.CurrentDomain.BaseDirectory + "ico.ico");
+                Icon = ico;
+
+                Text = "登录 - " + AppConfig.Instance.AppName;
+            }
+            catch
+            {
+                ShowIcon = false;
+            }
         }
 
         private void InitViewModel()
         {
             _vm = new ViewModel();
-            ViewModel.Impletement(ref _vm);
+            _vm = ModelProxy.Proxy(_vm);
             _vm.PropertyChanged += ViewModelPropertyChanged;
         }
 
-        public void DataBind()
+        public override void DataBind()
         {
             cmbUserName.DataBindings.Add(new Binding("Text", _vm, "UserName", false, DataSourceUpdateMode.OnPropertyChanged));
             txtPwd.DataBindings.Add(new Binding("Text", _vm, "Password", false, DataSourceUpdateMode.OnPropertyChanged));
@@ -44,22 +56,50 @@ namespace SalesmenSettlement.Forms
             cRememberPwd.DataBindings.Add(new Binding("Checked", _vm, "RememberPwd", false, DataSourceUpdateMode.OnPropertyChanged));
         }
 
+        public override bool ValidateForm()
+        {
+            errorProvider1.Clear();
+
+            if (_vm.UserName.IsNullOrWhiteSpace())
+            {
+                errorProvider1.ShowError(cmbUserName, "请输入用户名。");
+                return false;
+            }
+            if (_vm.Password.IsNullOrWhiteSpace())
+            {
+                errorProvider1.ShowError(txtPwd, "请输入密码。");
+                return false;
+            }
+            return true;
+        }
+
         private void bLogin_Click(object sender, EventArgs e)
         {
-            string userName = _vm.UserName;
-            string pwdMd5 = _vm.Password.GetMD5();
-            var user = ModelFactory.GetInstance().GetModel<UserInfo>("userName=@p0 and PasswordMD5=@p1",
-                new SqlParameter("@p0", userName), new SqlParameter("@p1", pwdMd5));
+            if (ValidateForm())
+            {
+                string userName = _vm.UserName;
+                string pwdMd5 = _vm.Password.GetMD5();
+                var user = ModelFactory.Instance.GetModel<UserInfo>("userName=@p0 and PasswordMD5=@p1",// and ISNULL(Disabled,0)<>1",
+                    new SqlParameter("@p0", userName), new SqlParameter("@p1", pwdMd5));
 
-            if (user != null)
-            {
-                MessageBox.Show("登录成功！");
+                if (user == null)
+                {
+                    lMsg.Visible = true;
+                    ResetTimer();
+                    return;
+                }
+
+                if (user.Disabled)
+                {
+                    Msgbox.Error("该用户名已经被停用。");
+                    return;
+                }
+
+                DialogResult = DialogResult.OK;
                 SaveUserHistory();
-            }
-            else
-            {
-                lMsg.Visible = true;
-                ResetTimer();
+                ClientInfo.UserLoginName = user.UserName;
+                ClientInfo.UserName = user.DisplayName;
+                Close();
             }
         }
 
@@ -108,6 +148,7 @@ namespace SalesmenSettlement.Forms
         private void LoginForm_Load(object sender, EventArgs e)
         {
             LoadUserHistory();
+            cmbUserName.Focus();
         }
 
         private void ViewModelPropertyChanged(object sender, PropertyChangedEventArgs e)
@@ -149,13 +190,39 @@ namespace SalesmenSettlement.Forms
                 }
             }
         }
+
+        private void cmbUserName_KeyPress(object sender, KeyPressEventArgs e)
+        {
+            if (e.KeyChar == (char)Keys.Enter)
+            {
+                if (sender == cmbUserName)
+                {
+                    e.Handled = true;
+
+                    if (txtPwd.Text.Length > 0)
+                    {
+                        bLogin.PerformClick();
+                    }
+                    else
+                    {
+                        txtPwd.Focus();
+                    }
+                }
+                else
+                {
+                    e.Handled = true;
+                    bLogin.PerformClick();
+                }
+            }
+        }
+
+        class ViewModel : ModelBase
+        {
+            public string UserName { get; set; }
+            public string Password { get; set; }
+            public bool ClearLogin { get; set; }
+            public bool RememberPwd { get; set; }
+        }
     }
 
-    class ViewModel : NotifyPropertyChanged
-    {
-        public string UserName { get; set; }
-        public string Password { get; set; }
-        public bool ClearLogin { get; set; }
-        public bool RememberPwd { get; set; }
-    }
 }

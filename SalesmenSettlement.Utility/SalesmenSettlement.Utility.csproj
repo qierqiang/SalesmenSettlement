@@ -73,10 +73,11 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="CodeHelper.cs" />
+    <Compile Include="DontSaveAttribute.cs" />
+    <Compile Include="ModelProxy.cs" />
     <Compile Include="UserProfile.cs" />
     <Compile Include="ModelBase.cs" />
     <Compile Include="NotifyPropertyChanged.cs" />
-    <Compile Include="NotifyPropertyChangedProxy.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Database.cs" />
   </ItemGroup>

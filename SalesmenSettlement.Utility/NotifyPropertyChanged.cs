@@ -32,5 +32,11 @@ namespace SalesmenSettlement.Utility
             T t = new T();
             return NotifyPropertyChangedProxy<T>.CreateInstance(t);
         }
+
+        public static T Impletement<T>(ref T obj) where T: NotifyPropertyChanged
+        {
+            obj = NotifyPropertyChangedProxy<T>.CreateInstance(obj);
+            return obj;
+        }
     }
 }

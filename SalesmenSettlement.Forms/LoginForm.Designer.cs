@@ -49,7 +49,7 @@
             this.cRememberPwd.Location = new System.Drawing.Point(541, 164);
             this.cRememberPwd.Name = "cRememberPwd";
             this.cRememberPwd.Size = new System.Drawing.Size(108, 16);
-            this.cRememberPwd.TabIndex = 0;
+            this.cRememberPwd.TabIndex = 2;
             this.cRememberPwd.Text = "记住密码(慎用)";
             this.cRememberPwd.UseVisualStyleBackColor = true;
             // 
@@ -60,7 +60,7 @@
             this.bLogin.Location = new System.Drawing.Point(500, 199);
             this.bLogin.Name = "bLogin";
             this.bLogin.Size = new System.Drawing.Size(149, 69);
-            this.bLogin.TabIndex = 1;
+            this.bLogin.TabIndex = 3;
             this.bLogin.Text = "登录";
             this.bLogin.UseVisualStyleBackColor = true;
             this.bLogin.Click += new System.EventHandler(this.bLogin_Click);
@@ -73,7 +73,7 @@
             this.label1.Location = new System.Drawing.Point(304, 77);
             this.label1.Name = "label1";
             this.label1.Size = new System.Drawing.Size(56, 16);
-            this.label1.TabIndex = 2;
+            this.label1.TabIndex = 5;
             this.label1.Text = "用户名";
             // 
             // label2
@@ -84,7 +84,7 @@
             this.label2.Location = new System.Drawing.Point(304, 119);
             this.label2.Name = "label2";
             this.label2.Size = new System.Drawing.Size(40, 16);
-            this.label2.TabIndex = 3;
+            this.label2.TabIndex = 6;
             this.label2.Text = "密码";
             // 
             // cClearLogin
@@ -108,13 +108,14 @@
             this.txtPwd.Name = "txtPwd";
             this.txtPwd.PasswordChar = '*';
             this.txtPwd.Size = new System.Drawing.Size(283, 33);
-            this.txtPwd.TabIndex = 6;
-            this.txtPwd.Text = "admin";
+            this.txtPwd.TabIndex = 1;
             this.txtPwd.UseSystemPasswordChar = true;
             this.txtPwd.WordWrap = false;
             // 
             // cmbUserName
             // 
+            this.cmbUserName.AutoCompleteMode = System.Windows.Forms.AutoCompleteMode.SuggestAppend;
+            this.cmbUserName.AutoCompleteSource = System.Windows.Forms.AutoCompleteSource.ListItems;
             this.cmbUserName.Font = new System.Drawing.Font("Verdana", 15.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.cmbUserName.ForeColor = System.Drawing.SystemColors.WindowText;
             this.cmbUserName.FormattingEnabled = true;
@@ -122,8 +123,7 @@
             this.cmbUserName.MaxLength = 50;
             this.cmbUserName.Name = "cmbUserName";
             this.cmbUserName.Size = new System.Drawing.Size(283, 33);
-            this.cmbUserName.TabIndex = 7;
-            this.cmbUserName.Text = "admin";
+            this.cmbUserName.TabIndex = 0;
             // 
             // lMsg
             // 
@@ -133,7 +133,7 @@
             this.lMsg.Location = new System.Drawing.Point(304, 232);
             this.lMsg.Name = "lMsg";
             this.lMsg.Size = new System.Drawing.Size(152, 16);
-            this.lMsg.TabIndex = 8;
+            this.lMsg.TabIndex = 7;
             this.lMsg.Text = "用户名或密码错误！";
             this.lMsg.Visible = false;
             // 
@@ -144,7 +144,7 @@
             this.panel1.Location = new System.Drawing.Point(12, 12);
             this.panel1.Name = "panel1";
             this.panel1.Size = new System.Drawing.Size(261, 256);
-            this.panel1.TabIndex = 9;
+            this.panel1.TabIndex = 8;
             // 
             // timer1
             // 
@@ -170,6 +170,7 @@
             this.MinimizeBox = false;
             this.Name = "LoginForm";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;
+            this.Load += new System.EventHandler(this.LoginForm_Load);
             this.ResumeLayout(false);
             this.PerformLayout();
 

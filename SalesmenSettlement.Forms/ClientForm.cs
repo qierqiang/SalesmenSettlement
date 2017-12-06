@@ -1,4 +1,6 @@
-﻿using SalesmenSettlement.Utility;
+﻿using SalesmenSettlement.LocalService;
+using SalesmenSettlement.Model;
+using SalesmenSettlement.Utility;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -8,8 +10,6 @@ using System.Linq;
 using System.Linq.Expressions;
 using System.Text;
 using System.Windows.Forms;
-using SalesmenSettlement.LocalService;
-using SalesmenSettlement.Model;
 
 namespace SalesmenSettlement.Forms
 {

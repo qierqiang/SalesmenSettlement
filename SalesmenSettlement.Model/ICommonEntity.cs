@@ -5,7 +5,7 @@ using System.Text;
 
 namespace SalesmenSettlement.Model
 {
-    public interface ICommonModel
+    public interface ICommonEntity
     {
         long ID { get; set; }
     }

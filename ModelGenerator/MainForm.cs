@@ -100,21 +100,22 @@ namespace ModelGenerator
 
         private void button3_Click(object sender, EventArgs e)
         {
-            //FolderBrowserDialog dialog = new FolderBrowserDialog { ShowNewFolderButton = true };
+            //    FolderBrowserDialog dialog = new FolderBrowserDialog { ShowNewFolderButton = true };
 
-            //if (dialog.ShowDialog() != DialogResult.OK)
-            //    return;
+            //    if (dialog.ShowDialog() != DialogResult.OK)
+            //        return;
 
-            //string dir = dialog.SelectedPath;
+            //    string dir = dialog.SelectedPath;
 
-            string dir = @"C:\Users\apple\Desktop\cs\";
+            //string dir = @"C:\Users\apple\Desktop\cs";
+            string dir = @"C:\Users\Snokye\Desktop";
 
             ModelGenerator generator = new ModelGenerator(textBox1.Text);
             string[] tableNames = generator.GetTableNames();
             foreach (string table in tableNames)
             {
                 string content = generator.WriteClass(table, generator.GetColumns(table));
-                File.WriteAllText(dir + table + ".cs", content);
+                File.WriteAllText(dir + "\\" + table + ".cs", content);
             }
 
             MessageBox.Show("Done!");

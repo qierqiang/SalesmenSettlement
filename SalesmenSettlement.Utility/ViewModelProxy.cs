@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Linq;
 using System.Reflection;
 using System.Runtime.Remoting.Messaging;
@@ -8,11 +9,11 @@ using System.Text;
 
 namespace SalesmenSettlement.Utility
 {
-    public class ModelProxy : RealProxy
+    public class ViewModelProxy : RealProxy
     {
-        private ModelBase _target;
+        private INotifyPropertyChanged _target;
 
-        public ModelProxy(ModelBase target) : base(target.GetType())
+        public ViewModelProxy(INotifyPropertyChanged target) : base(target.GetType())
         {
             _target = target;
         }
@@ -40,9 +41,9 @@ namespace SalesmenSettlement.Utility
         }
 
         //static
-        public static T Proxy<T>(T target) where T : ModelBase
+        public static T Proxy<T>(T target) where T : INotifyPropertyChanged
         {
-            return (T)new ModelProxy(target).GetTransparentProxy();
+            return (T)new ViewModelProxy(target).GetTransparentProxy();
         }
     }
 }

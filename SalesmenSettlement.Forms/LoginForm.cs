@@ -44,7 +44,7 @@ namespace SalesmenSettlement.Forms
         private void InitViewModel()
         {
             _vm = new ViewModel();
-            _vm = ModelProxy.Proxy(_vm);
+            _vm = ViewModelProxy.Proxy(_vm);
             _vm.PropertyChanged += ViewModelPropertyChanged;
         }
 
@@ -79,8 +79,8 @@ namespace SalesmenSettlement.Forms
             {
                 string userName = _vm.UserName;
                 string pwdMd5 = _vm.Password.GetMD5();
-                var user = ModelFactory.Instance.GetModel<UserInfo>("userName=@p0 and PasswordMD5=@p1",// and ISNULL(Disabled,0)<>1",
-                    new SqlParameter("@p0", userName), new SqlParameter("@p1", pwdMd5));
+                UserInfo user = ModelProvider.Instance.GetModels(typeof(UserInfo), "userName=@p0 and PasswordMD5=@p1",// and ISNULL(Disabled,0)<>1",
+                    new SqlParameter("@p0", userName), new SqlParameter("@p1", pwdMd5)).Cast<UserInfo>().FirstOrDefault();
 
                 if (user == null)
                 {
@@ -89,7 +89,7 @@ namespace SalesmenSettlement.Forms
                     return;
                 }
 
-                if (user.Disabled)
+                if (user.Disabled.GetValueOrDefault())
                 {
                     Msgbox.Error("该用户名已经被停用。");
                     return;
@@ -106,12 +106,12 @@ namespace SalesmenSettlement.Forms
         private void LoadUserHistory()
         {
             //只加载最近10个
-            var dirs = new DirectoryInfo(UserProfile.UserProfileDirecotry).GetDirectories().OrderByDescending(d => d.LastWriteTime).Take(10);
+            var dirs = new DirectoryInfo(LocalUserProfile.UserProfileDirecotry).GetDirectories().OrderByDescending(d => d.LastWriteTime).Take(10);
 
             foreach (var d in dirs)//每个目录一个用户（的所有设置）
             {
                 //找密码
-                string pwd = UserProfile.GetProfileContent(d.Name, "password");
+                string pwd = LocalUserProfile.GetProfileContent(d.Name, "password");
                 _userHistory[d.Name] = pwd;
                 cmbUserName.Items.Add(d.Name);
             }
@@ -125,11 +125,11 @@ namespace SalesmenSettlement.Forms
         {
             if (cRememberPwd.Checked)
             {
-                UserProfile.SaveContent(_vm.UserName, "password", _vm.Password);
+                LocalUserProfile.SaveContent(_vm.UserName, "password", _vm.Password);
             }
             else
             {
-                UserProfile.Delete(_vm.UserName, "password");
+                LocalUserProfile.Delete(_vm.UserName, "password");
             }
         }
 
@@ -216,7 +216,7 @@ namespace SalesmenSettlement.Forms
             }
         }
 
-        class ViewModel : ModelBase
+        class ViewModel : ViewModelBase
         {
             public string UserName { get; set; }
             public string Password { get; set; }

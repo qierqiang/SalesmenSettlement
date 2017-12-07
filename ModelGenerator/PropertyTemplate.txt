@@ -5,7 +5,7 @@
 		public @type @name
 		{
 			get { return @privateField; }
-			set
+			@isreadonly set
 			{
 				if (@privateField != value)
 				{

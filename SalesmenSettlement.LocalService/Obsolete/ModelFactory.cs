@@ -10,6 +10,7 @@ using System.Text;
 
 namespace SalesmenSettlement.LocalService
 {
+    [Obsolete]
     public class ModelFactory
     {
         private Database _db;

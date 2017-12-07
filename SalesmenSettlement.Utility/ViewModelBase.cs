@@ -8,16 +8,13 @@ using System.Text;
 
 namespace SalesmenSettlement.Utility
 {
-    public class ModelBase : NotifyPropertyChanged
+    public class ViewModelBase : NotifyPropertyChanged
     {
-        [DontSave]
-        public long ID { get; set; }
-
         protected bool _modified = false;
 
         public bool GetIsModified() => _modified;
 
-        public void SetIsModified(bool value) => _modified = value;
+        public void SetUnModified() => _modified = false;
 
         public override void OnPropertyChanged(string propertyName)
         {

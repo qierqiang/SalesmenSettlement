@@ -6,6 +6,7 @@ using System.ComponentModel;
 using System.Linq;
 using System.Text;
 using System.Windows.Forms;
+using SalesmenSettlement.Model;
 
 namespace SalesmenSettlement.Forms
 {
@@ -13,9 +14,9 @@ namespace SalesmenSettlement.Forms
     {
         public event EventHandler DataSourceChanged;
 
-        private ModelBase _dataSource;
+        private EntityBase _dataSource;
 
-        public ModelBase DataSource
+        public EntityBase DataSource
         {
             get => _dataSource;
             set
@@ -36,7 +37,7 @@ namespace SalesmenSettlement.Forms
         {
             if (ValidateForm())
             {
-                ModelFactory.Instance.Save(_dataSource);
+                ModelProvider.Instance.Save(DataSource);
             }
             return true;
         }

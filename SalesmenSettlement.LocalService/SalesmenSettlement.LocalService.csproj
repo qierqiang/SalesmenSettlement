@@ -61,7 +61,8 @@
   <ItemGroup>
     <Compile Include="AppConfig.cs" />
     <Compile Include="ClientInfo.cs" />
-    <Compile Include="ModelFactory.cs" />
+    <None Include="Obsolete\ModelFactory.cs" />
+    <Compile Include="ModelProvider.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="UserProfileProvider.cs" />
   </ItemGroup>
@@ -71,6 +72,10 @@
     </Content>
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\SalesmenSettlement.Model\SalesmenSettlement.Model.csproj">
+      <Project>{2e7d79d1-afcf-4d91-b1cb-7baa95168108}</Project>
+      <Name>SalesmenSettlement.Model</Name>
+    </ProjectReference>
     <ProjectReference Include="..\SalesmenSettlement.Utility\SalesmenSettlement.Utility.csproj">
       <Project>{5e00950d-a17c-4d6d-9381-a761c75f4328}</Project>
       <Name>SalesmenSettlement.Utility</Name>

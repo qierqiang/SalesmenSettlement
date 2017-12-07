@@ -30,7 +30,7 @@ namespace ModelGenerator
         {
             if (tableName.IsNullOrWhiteSpace())
             {
-                throw new ArgumentException("message", nameof(tableName));
+                throw new ArgumentException("", nameof(tableName));
             }
 
             string sql = @"
@@ -93,6 +93,7 @@ namespace ModelGenerator
                   .Replace("@privateField", privateField)
                   .Replace("@description", description)
                   .Replace("@attributes", attributes)
+                  .Replace("@isreadonly", c.AutoGenerate ? "protected" : "")
                   .Replace("@name", c.Name);
 
                 //删除多余空行

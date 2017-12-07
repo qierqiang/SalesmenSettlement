@@ -1,9 +1,9 @@
-﻿using System;
+using System;
 using System.ComponentModel;
 
 namespace SalesmenSettlement.Model
 {
-    public class UserInfo : INotifyPropertyChanged, ICommonModel
+    public class UserInfo : INotifyPropertyChanged, ICommonEntity
     {
         private Int64 _iD;
 
@@ -22,11 +22,26 @@ namespace SalesmenSettlement.Model
             }
         }
 
+        private Guid _userID;
+
+
+
+        public Guid UserID
+        {
+            get { return _userID; }
+            set
+            {
+                if (_userID != value)
+                {
+                    _userID = value;
+                    OnPropertyChanged("UserID");
+                }
+            }
+        }
+
         private String _userName;
 
-        /// <summary>
-        /// test
-        /// </summary>
+
         [Validate(length: 50)]
         public String UserName
         {
@@ -77,9 +92,8 @@ namespace SalesmenSettlement.Model
 
         private Boolean? _disabled;
 
-        /// <summary>
-        /// def=0
-        /// </summary>
+
+
         public Boolean? Disabled
         {
             get { return _disabled; }
@@ -89,40 +103,6 @@ namespace SalesmenSettlement.Model
                 {
                     _disabled = value;
                     OnPropertyChanged("Disabled");
-                }
-            }
-        }
-
-        private Decimal? _tst;
-
-
-
-        public Decimal? tst
-        {
-            get { return _tst; }
-            set
-            {
-                if (_tst != value)
-                {
-                    _tst = value;
-                    OnPropertyChanged("tst");
-                }
-            }
-        }
-
-        private Guid? _fdfd;
-
-
-        [AutoGenerate]
-        public Guid? fdfd
-        {
-            get { return _fdfd; }
-            set
-            {
-                if (_fdfd != value)
-                {
-                    _fdfd = value;
-                    OnPropertyChanged("fdfd");
                 }
             }
         }

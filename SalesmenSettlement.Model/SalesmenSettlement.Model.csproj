@@ -57,9 +57,12 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="AutoGenerateAttribute.cs" />
-    <Compile Include="ICommonModel.cs" />
+    <Compile Include="ICommonEntity.cs" />
+    <Compile Include="EntityBase.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <None Include="Obsolete\UserInfo.cs" />
     <Compile Include="UserInfo.cs" />
+    <Compile Include="UserProfile.cs" />
     <Compile Include="ValidateAttribute.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -71,5 +74,6 @@
   <ItemGroup>
     <Service Include="{508349B6-6B84-4DF5-91F0-309BEEBAD82D}" />
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

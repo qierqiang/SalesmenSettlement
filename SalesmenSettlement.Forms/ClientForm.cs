@@ -41,7 +41,7 @@ namespace SalesmenSettlement.Forms
         private void LoadWindowState()
         {
             var example = new { FormWindowState = FormWindowState.Normal, Location = Point.Empty, Size = Size.Empty };
-            var profile = UserProfile.GetAnonymousTypeProfile(ClientInfo.UserLoginName, "ClientWindow", example);
+            var profile = LocalUserProfile.GetAnonymousTypeProfile(ClientInfo.UserLoginName, "ClientWindow", example);
             if (profile != null)
             {
                 WindowState = profile.FormWindowState;
@@ -55,7 +55,7 @@ namespace SalesmenSettlement.Forms
         private void SaveWindowState()
         {
             var profile = new { FormWindowState = WindowState, Location, Size };
-            UserProfile.Save(ClientInfo.UserLoginName, "ClientWindow", profile);
+            LocalUserProfile.Save(ClientInfo.UserLoginName, "ClientWindow", profile);
         }
 
         private void ShowNewForm(object sender, EventArgs e)

@@ -7,7 +7,7 @@ using System.Text;
 
 namespace SalesmenSettlement.Utility
 {
-    public class UserProfile
+    public class LocalUserProfile
     {
         /*
             目录结构：
@@ -35,11 +35,11 @@ namespace SalesmenSettlement.Utility
         {
             if (userName.IsNullOrWhiteSpace())
             {
-                throw new ArgumentException("message", nameof(userName));
+                throw new ArgumentException("", nameof(userName));
             }
             if (profileName.IsNullOrWhiteSpace())
             {
-                throw new ArgumentException("message", nameof(profileName));
+                throw new ArgumentException("", nameof(profileName));
             }
 
             //创建文件夹
@@ -82,11 +82,11 @@ namespace SalesmenSettlement.Utility
         {
             if (userName.IsNullOrWhiteSpace())
             {
-                throw new ArgumentException("message", nameof(userName));
+                throw new ArgumentException("", nameof(userName));
             }
             if (profileName.IsNullOrWhiteSpace())
             {
-                throw new ArgumentException("message", nameof(profileName));
+                throw new ArgumentException("", nameof(profileName));
             }
 
             //找文件
@@ -103,11 +103,11 @@ namespace SalesmenSettlement.Utility
         {
             if (userName.IsNullOrWhiteSpace())
             {
-                throw new ArgumentException("message", nameof(userName));
+                throw new ArgumentException("", nameof(userName));
             }
             if (profileName.IsNullOrWhiteSpace())
             {
-                throw new ArgumentException("message", nameof(profileName));
+                throw new ArgumentException("", nameof(profileName));
             }
 
             string fileName = UserProfileDirecotry + userName + "\\" + profileName + ".dat";

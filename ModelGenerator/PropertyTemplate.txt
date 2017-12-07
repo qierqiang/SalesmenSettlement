@@ -1,0 +1,16 @@
+﻿		private @type @privateField;
+		
+		@description
+		@attributes
+		public @type @name
+		{
+			get { return @privateField; }
+			set
+			{
+				if (@privateField != value)
+				{
+					@privateField = value;
+					OnPropertyChanged("@name");
+				}
+			}
+		}

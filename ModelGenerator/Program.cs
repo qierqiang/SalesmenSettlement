@@ -15,7 +15,10 @@ namespace ModelGenerator
         {
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
-            Application.Run(new Form1());
+            //Form f = new Form1();
+            //f.ShowDialog();
+            //MessageBox.Show(typeof(string).IsValueType.ToString());
+            Application.Run(new MainForm());
         }
     }
 }

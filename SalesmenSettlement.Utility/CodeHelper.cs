@@ -104,10 +104,15 @@ namespace SalesmenSettlement
             return Encoding.Unicode.GetString(MStream.ToArray());       //返回解密后的字符串  
         }
 
+        //<T>
         public static string ToJson<T>(this T source) where T : class => JsonConvert.SerializeObject(source);
+
+        public static bool In<T>(this T source, params T[] collection) => collection.Contains(source);
 
         //object
         public static bool IsNullOrDbNull(this object source) => source == null || source == DBNull.Value;
+
+        public static bool In(this object source, params object[] collection) => collection.Contains(source);
 
         //control
         public static void ShowError(this ErrorProvider provider, Control ctrl, string error)

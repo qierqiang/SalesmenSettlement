@@ -9,14 +9,15 @@ using System.Windows.Forms;
 using SalesmenSettlement.Utility;
 using System.Xml.Linq;
 using System.Reflection;
+using System.IO;
 
 namespace ModelGenerator
 {
-    public partial class Form1 : Form
+    public partial class MainForm : Form
     {
         Database _database;
 
-        public Form1()
+        public MainForm()
         {
             InitializeComponent();
         }
@@ -95,6 +96,28 @@ namespace ModelGenerator
             }
 
             return tmp;
+        }
+
+        private void button3_Click(object sender, EventArgs e)
+        {
+            //FolderBrowserDialog dialog = new FolderBrowserDialog { ShowNewFolderButton = true };
+
+            //if (dialog.ShowDialog() != DialogResult.OK)
+            //    return;
+
+            //string dir = dialog.SelectedPath;
+
+            string dir = @"C:\Users\apple\Desktop\cs\";
+
+            ModelGenerator generator = new ModelGenerator(textBox1.Text);
+            string[] tableNames = generator.GetTableNames();
+            foreach (string table in tableNames)
+            {
+                string content = generator.WriteClass(table, generator.GetColumns(table));
+                File.WriteAllText(dir + table + ".cs", content);
+            }
+
+            MessageBox.Show("Done!");
         }
     }
 }

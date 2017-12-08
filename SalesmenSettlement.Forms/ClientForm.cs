@@ -169,5 +169,10 @@ namespace SalesmenSettlement.Forms
             if (!ClientInfo.UserLoginName.IsNullOrWhiteSpace())
                 SaveWindowState();
         }
+
+        private void aboutToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            new AboutBox().ShowDialog(this);
+        }
     }
 }

@@ -95,7 +95,7 @@ namespace SalesmenSettlement.LocalService
 
         public T GetOriginModel<T>() where T : ModelBase => Activator.CreateInstance<T>();
 
-        public T ImpletementPropertyChanged<T>(T model) where T : ModelBase => ModelProxy.Proxy(model);
+        public T ImplementPropertyChanged<T>(T model) where T : ModelBase => ModelProxy.Proxy(model);
 
         public void Save(ModelBase model)
         {

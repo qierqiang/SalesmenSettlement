@@ -1,5 +1,5 @@
-﻿系统名称=业务结算
-公司名称=太平洋
+﻿系统名称=WTF系统
+公司名称=有限公司
 版本号=v1.0
 连接字符串=data source=.;user id=sa;pwd=123456;Initial Catalog=SalesmensettlementDev;
 默认密码MD5=E10ADC3949BA59ABBE56E057F20F883E

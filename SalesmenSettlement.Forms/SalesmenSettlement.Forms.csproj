@@ -70,11 +70,29 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="AboutBox.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="AboutBox.Designer.cs">
+      <DependentUpon>AboutBox.cs</DependentUpon>
+    </Compile>
     <Compile Include="AutoEditForm.cs">
       <SubType>Form</SubType>
     </Compile>
     <Compile Include="AutoEditForm.Designer.cs">
       <DependentUpon>AutoEditForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="AutoEditor.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="AutoEditor.Designer.cs">
+      <DependentUpon>AutoEditor.cs</DependentUpon>
+    </Compile>
+    <Compile Include="ChangePasswordForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="ChangePasswordForm.Designer.cs">
+      <DependentUpon>ChangePasswordForm.cs</DependentUpon>
     </Compile>
     <Compile Include="ClientForm.cs">
       <SubType>Form</SubType>
@@ -88,6 +106,7 @@
     <Compile Include="Dashboard.Designer.cs">
       <DependentUpon>Dashboard.cs</DependentUpon>
     </Compile>
+    <Compile Include="EditControlTypeAttribute.cs" />
     <Compile Include="EditFormBase.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -121,8 +140,17 @@
     </Compile>
   </ItemGroup>
   <ItemGroup>
+    <EmbeddedResource Include="AboutBox.resx">
+      <DependentUpon>AboutBox.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="AutoEditForm.resx">
       <DependentUpon>AutoEditForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="AutoEditor.resx">
+      <DependentUpon>AutoEditor.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="ChangePasswordForm.resx">
+      <DependentUpon>ChangePasswordForm.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="ClientForm.resx">
       <DependentUpon>ClientForm.cs</DependentUpon>
@@ -137,7 +165,7 @@
       <DependentUpon>LoginForm.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Properties\Resources.resx">
-      <Generator>ResXFileCodeGenerator</Generator>
+      <Generator>PublicResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
     </EmbeddedResource>
   </ItemGroup>
@@ -154,6 +182,27 @@
       <Project>{5e00950d-a17c-4d6d-9381-a761c75f4328}</Project>
       <Name>SalesmenSettlement.Utility</Name>
     </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Icons\Free-Icons-Funktional-creative-freedom\04_Save_32x32.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Icons\icons8.cn\icons8-关闭窗口-48.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Icons\icons8.cn\icons8-保存-40.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Icons\icons8.cn\icons8-关闭-40.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Icons\icons8.cn\icons8-关闭窗口-40.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Icons\icons8.cn\icons8-关闭窗口-40 %281%29.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Icons\icons8.cn\icons8-关闭窗口-40 %282%29.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

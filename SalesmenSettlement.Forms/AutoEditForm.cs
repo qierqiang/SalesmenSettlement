@@ -17,6 +17,16 @@ namespace SalesmenSettlement.Forms
             InitializeComponent();
         }
 
-        //
+        private void bSave_Click(object sender, EventArgs e)
+        {
+            Submit();
+        }
+
+        private void bClose_Click(object sender, EventArgs e)
+        {
+            Close();
+        }
+
+        //public virtual void AutoGenerateControls()
     }
 }

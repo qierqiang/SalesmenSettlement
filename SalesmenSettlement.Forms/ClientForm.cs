@@ -20,9 +20,15 @@ namespace SalesmenSettlement.Forms
 
         public ClientForm()
         {
+            if (new LoginForm().ShowDialog() != DialogResult.OK)
+            {
+                System.Diagnostics.Process.GetCurrentProcess().Kill();
+            }
+            LastInstance = this;
             InitializeComponent();
             Text = AppConfig.Instance.AppName;
             LoadIcon();
+            FormState.LoadFormState(this, "ClientForm", null);
         }
 
         private void LoadIcon()
@@ -36,26 +42,6 @@ namespace SalesmenSettlement.Forms
             {
                 ShowIcon = false;
             }
-        }
-
-        private void LoadWindowState()
-        {
-            var example = new { FormWindowState = FormWindowState.Normal, Location = Point.Empty, Size = Size.Empty };
-            var profile = LocalUserProfile.GetAnonymousTypeProfile(ClientInfo.UserLoginName, "ClientWindow", example);
-            if (profile != null)
-            {
-                WindowState = profile.FormWindowState;
-                if (WindowState != FormWindowState.Maximized)
-                {
-                    Location = profile.Location;
-                    Size = profile.Size;
-                }
-            }
-        }
-        private void SaveWindowState()
-        {
-            var profile = new { FormWindowState = WindowState, Location, Size };
-            LocalUserProfile.Save(ClientInfo.UserLoginName, "ClientWindow", profile);
         }
 
         private void ShowNewForm(object sender, EventArgs e)
@@ -145,13 +131,9 @@ namespace SalesmenSettlement.Forms
 
         private void ClientForm_Load(object sender, EventArgs e)
         {
-            if (new LoginForm().ShowDialog(this) != DialogResult.OK)
-            {
-                Close();
-                return;
-            }
 
-            LoadWindowState();
+
+            //LoadWindowState();
             Dashboard childForm = new Dashboard();
             childForm.MdiParent = this;
             childForm.Show();
@@ -166,13 +148,63 @@ namespace SalesmenSettlement.Forms
 
         private void ClientForm_FormClosed(object sender, FormClosedEventArgs e)
         {
-            if (!ClientInfo.UserLoginName.IsNullOrWhiteSpace())
-                SaveWindowState();
+            FormState.SaveFormState(this, "ClientForm", null);
         }
 
         private void aboutToolStripMenuItem_Click(object sender, EventArgs e)
         {
             new AboutBox().ShowDialog(this);
         }
+
+        private void changePwdToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            ChangePasswordForm.ViewModel model = new ChangePasswordForm.ViewModel();
+            model.ID = ClientInfo.UserID;
+            model = ViewModelProxy.Proxy(model);
+            OpenDialogForm(typeof(AutoEditForm), "修改密码", model);
+        }
+
+        public Form OpenMDIForm(Type formType)
+        {
+            if (Activator.CreateInstance(formType) is Form frm)
+            {
+                frm.ShowInTaskbar = true;
+                frm.MdiParent = this;
+                //frm.Icon == Icon.de
+                frm.Show();
+                return frm;
+            }
+
+            return null;
+        }
+
+        public DialogResult OpenDialogForm(Type formType, string title, ViewModelBase viewModel = null)
+        {
+            Form frm;
+
+            if (viewModel == null)
+            {
+                frm = Activator.CreateInstance(formType, title) as Form;
+            }
+            else
+            {
+                frm = Activator.CreateInstance(formType, viewModel, title) as Form;
+            }
+            if (frm != null)
+            {
+                //加载布局
+                FormState.LoadFormState(frm, title, viewModel);
+                //添加保存布局事件
+                frm.ShowIcon = false;
+                frm.ShowInTaskbar = false;
+                MinimumSize = new Size(820, 200);
+                frm.Closed += (object sender, EventArgs e) => { FormState.SaveFormState(frm, title, viewModel); };
+                return frm.ShowDialog(this);
+            }
+
+            return DialogResult.None;
+        }
+
+        public static ClientForm LastInstance { get; set; }
     }
 }

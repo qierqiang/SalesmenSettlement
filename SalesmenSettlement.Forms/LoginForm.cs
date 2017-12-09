@@ -79,7 +79,7 @@ namespace SalesmenSettlement.Forms
             {
                 string userName = _vm.UserName;
                 string pwdMd5 = _vm.Password.GetMD5();
-                UserInfo user = ModelProvider.Instance.GetModels(typeof(UserInfo), "userName=@p0 and PasswordMD5=@p1",// and ISNULL(Disabled,0)<>1",
+                UserInfo user = EntityProvider.Instance.GetEntities(typeof(UserInfo), "userName=@p0 and PasswordMD5=@p1",// and ISNULL(Disabled,0)<>1",
                     new SqlParameter("@p0", userName), new SqlParameter("@p1", pwdMd5)).Cast<UserInfo>().FirstOrDefault();
 
                 if (user == null)
@@ -97,9 +97,14 @@ namespace SalesmenSettlement.Forms
 
                 DialogResult = DialogResult.OK;
                 SaveUserHistory();
+                ClientInfo.UserID = user.ID;
                 ClientInfo.UserLoginName = user.UserName;
                 ClientInfo.UserName = user.DisplayName;
                 Close();
+                //Hide();
+                //ClientForm mainForm = new ClientForm();
+                //ClientForm.LastInstance = mainForm;
+                //mainForm.Show();
             }
         }
 

@@ -14,6 +14,8 @@ namespace SalesmenSettlement.LocalService
             Directory = new Hashtable();
         }
 
+        public static long UserID { get; set; }
+
         public static string UserLoginName { get; set; }
 
         public static string UserName { get; set; }

@@ -11,11 +11,11 @@ using System.Text;
 
 namespace SalesmenSettlement.LocalService
 {
-    public class ModelProvider
+    public class EntityProvider
     {
         private Database _db;
 
-        public ModelProvider(string cnnString)
+        public EntityProvider(string cnnString)
         {
             _db = new Database(cnnString);
         }
@@ -43,12 +43,12 @@ namespace SalesmenSettlement.LocalService
             return !_db.ExecuteScalar(new SqlCommand(sql), new SqlParameter("@p0", model.ID)).IsNullOrDbNull();
         }
 
-        public ICommonEntity GetModelByID(Type type, long id)
+        public ICommonEntity GetEntityByID(Type type, long id)
         {
-            return GetModels(type, "[ID]=@p0", new SqlParameter("@p0", id)).FirstOrDefault() as ICommonEntity;
+            return GetEntities(type, "[ID]=@p0", new SqlParameter("@p0", id)).FirstOrDefault() as ICommonEntity;
         }
 
-        public List<object> GetModels(Type type, string where, params SqlParameter[] parms)
+        public List<object> GetEntities(Type type, string where, params SqlParameter[] parms)
         {
             string sql = string.Format("SELECT * FROM [{0}]", type.Name);
 
@@ -77,9 +77,8 @@ namespace SalesmenSettlement.LocalService
         }
 
         /// <summary>
-        /// 参数obj要求是ModelBase的派生类，且实现ICommonModel接口
+        /// 参数obj要求是EntityBase的派生类，且实现ICommonModel接口
         /// </summary>
-        /// <param name="obj"></param>
         public void Save(object obj)
         {
             if (obj is EntityBase model && model is ICommonEntity commonModel)
@@ -91,12 +90,12 @@ namespace SalesmenSettlement.LocalService
                     if (commonModel.ID > 0)
                     {
                         Update(commonModel);
-                        RefreshModelFromDatabase(commonModel);
+                        RefreshEntityFromDatabase(commonModel);
                     }
                     else
                     {
                         long newID = Insert(commonModel);
-                        RefreshModelFromDatabase(commonModel, newID);
+                        RefreshEntityFromDatabase(commonModel, newID);
                     }
                     _db.CommitTransaction();
                     model.SetUnModified();
@@ -113,32 +112,50 @@ namespace SalesmenSettlement.LocalService
             }
         }
 
-        public void RefreshModelFromDatabase(ICommonEntity model, long id = 0)
+        public void RefreshEntityFromDatabase(ICommonEntity entity, long id = 0)
         {
-            if (model.ID == 0)
+            if (entity.ID == 0)
             {
                 if (id == 0)
                     throw new Exception("数据库中无此记录！");
 
-                model.ID = id;
+                entity.ID = id;
             }
 
-            ICommonEntity tmp = GetModelByID(model.GetType(), model.ID);
-            CopyTo(tmp, model);
+            ICommonEntity tmp = GetEntityByID(entity.GetType(), entity.ID);
+            CopyTo(tmp, entity);
+
+            if (entity is EntityBase e)
+            {
+                e.SetUnModified();
+            }
         }
 
-        public void CopyTo(object fromModel, object toModel)
+        public void CopyTo(object fromEntity, object toEntity)
         {
-            throw new NotImplementedException();
+            var query = from fp in fromEntity.GetType().GetProperties()
+                        from tp in toEntity.GetType().GetProperties()
+                        where tp.Name == fp.Name
+                        select new { fp, tp };
+
+            foreach (var item in query)
+            {
+                try
+                {
+                    object val = item.fp.GetValue(fromEntity, null);
+                    item.tp.SetValue(toEntity, val, null);
+                }
+                catch { }
+            }
         }
 
         //private
         /// <summary>
         /// 插入新记录并返回新记录的ID
         /// </summary>
-        public long Insert(ICommonEntity model)
+        public long Insert(ICommonEntity entity)
         {
-            Type type = model.GetType();
+            Type type = entity.GetType();
             PropertyInfo[] properties = type.GetProperties();
             Dictionary<string, SqlParameter> dictionary = new Dictionary<string, SqlParameter>();
 
@@ -146,7 +163,7 @@ namespace SalesmenSettlement.LocalService
             {
                 if (!p.GetCustomAttributes(typeof(AutoGenerateAttribute), true).Any())
                 {
-                    dictionary[p.Name] = new SqlParameter("@" + p.Name, p.GetValue(model, null));
+                    dictionary[p.Name] = new SqlParameter("@" + p.Name, p.GetValue(entity, null));
                 }
             }
 
@@ -169,9 +186,9 @@ namespace SalesmenSettlement.LocalService
         /// <summary>
         /// 用model更新数据库记录
         /// </summary>
-        public void Update(ICommonEntity model)
+        public void Update(ICommonEntity entity)
         {
-            Type type = model.GetType();
+            Type type = entity.GetType();
             PropertyInfo[] properties = type.GetProperties();
             Dictionary<string, SqlParameter> dictionary = new Dictionary<string, SqlParameter>();
 
@@ -179,11 +196,11 @@ namespace SalesmenSettlement.LocalService
             {
                 if (!p.GetCustomAttributes(typeof(AutoGenerateAttribute), true).Any())
                 {
-                    dictionary[p.Name] = new SqlParameter("@" + p.Name, p.GetValue(model, null));
+                    dictionary[p.Name] = new SqlParameter("@" + p.Name, p.GetValue(entity, null));
                 }
             }
 
-            dictionary["ID"] = new SqlParameter("@ID", model.ID);
+            dictionary["ID"] = new SqlParameter("@ID", entity.ID);
             StringBuilder sb = new StringBuilder("UPDATE [{0}] SET \r\n".FormatWith(type.Name));
 
             foreach (var item in dictionary)
@@ -201,21 +218,21 @@ namespace SalesmenSettlement.LocalService
         /// <summary>
         /// 用model更新数据库记录,只会更新发生过修改的字段值！
         /// </summary>
-        public void Update<T>(T model) where T : EntityBase, ICommonEntity
+        public void Update<T>(T entity) where T : EntityBase, ICommonEntity
         {
-            Type type = model.GetType();
+            Type type = entity.GetType();
             PropertyInfo[] properties = type.GetProperties();
             Dictionary<string, SqlParameter> dictionary = new Dictionary<string, SqlParameter>();
 
             foreach (var p in properties)
             {
-                if (model.GetModifiedProperties().Contains(p.Name) && !p.GetCustomAttributes(typeof(AutoGenerateAttribute), true).Any())
+                if (entity.GetModifiedProperties().Contains(p.Name) && !p.GetCustomAttributes(typeof(AutoGenerateAttribute), true).Any())
                 {
-                    dictionary[p.Name] = new SqlParameter("@" + p.Name, p.GetValue(model, null));
+                    dictionary[p.Name] = new SqlParameter("@" + p.Name, p.GetValue(entity, null));
                 }
             }
 
-            dictionary["ID"] = new SqlParameter("@ID", model.ID);
+            dictionary["ID"] = new SqlParameter("@ID", entity.ID);
             StringBuilder sb = new StringBuilder("UPDATE [{0}] SET \r\n".FormatWith(type.Name));
 
             foreach (var item in dictionary)
@@ -231,15 +248,15 @@ namespace SalesmenSettlement.LocalService
         }
 
         //static
-        private static ModelProvider _instance;
+        private static EntityProvider _instance;
 
-        public static ModelProvider Instance
+        public static EntityProvider Instance
         {
             get
             {
                 if (_instance == null)
                 {
-                    _instance = new ModelProvider(AppConfig.Instance.DatabaseConnectionString);
+                    _instance = new EntityProvider(AppConfig.Instance.DatabaseConnectionString);
                 }
                 return _instance;
             }
@@ -282,11 +299,11 @@ namespace SalesmenSettlement.LocalService
 
         //Obsolete
         [Obsolete()]
-        public static ModelProvider GetInstance()
+        public static EntityProvider GetInstance()
         {
             if (_instance == null)
             {
-                _instance = new ModelProvider(AppConfig.Instance.DatabaseConnectionString);
+                _instance = new EntityProvider(AppConfig.Instance.DatabaseConnectionString);
             }
             return _instance;
         }

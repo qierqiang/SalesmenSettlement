@@ -63,8 +63,23 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Form1.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Form1.Designer.cs">
+      <DependentUpon>Form1.cs</DependentUpon>
+    </Compile>
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="UserEdit.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="UserEdit.Designer.cs">
+      <DependentUpon>UserEdit.cs</DependentUpon>
+    </Compile>
+    <EmbeddedResource Include="Form1.resx">
+      <DependentUpon>Form1.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
@@ -74,6 +89,9 @@
       <AutoGen>True</AutoGen>
       <DependentUpon>Resources.resx</DependentUpon>
     </Compile>
+    <EmbeddedResource Include="UserEdit.resx">
+      <DependentUpon>UserEdit.cs</DependentUpon>
+    </EmbeddedResource>
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>
@@ -94,6 +112,14 @@
     <ProjectReference Include="..\SalesmenSettlement.Forms\SalesmenSettlement.Forms.csproj">
       <Project>{169c9845-900e-4327-a37d-48c00bafd050}</Project>
       <Name>SalesmenSettlement.Forms</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\SalesmenSettlement.LocalService\SalesmenSettlement.LocalService.csproj">
+      <Project>{045ec901-5c90-4a10-a43d-eeb95a05b2e9}</Project>
+      <Name>SalesmenSettlement.LocalService</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\SalesmenSettlement.Model\SalesmenSettlement.Model.csproj">
+      <Project>{2e7d79d1-afcf-4d91-b1cb-7baa95168108}</Project>
+      <Name>SalesmenSettlement.Model</Name>
     </ProjectReference>
     <ProjectReference Include="..\SalesmenSettlement.Utility\SalesmenSettlement.Utility.csproj">
       <Project>{5e00950d-a17c-4d6d-9381-a761c75f4328}</Project>

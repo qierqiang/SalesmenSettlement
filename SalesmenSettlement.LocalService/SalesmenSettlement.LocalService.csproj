@@ -62,7 +62,7 @@
     <Compile Include="AppConfig.cs" />
     <Compile Include="ClientInfo.cs" />
     <None Include="Obsolete\ModelFactory.cs" />
-    <Compile Include="ModelProvider.cs" />
+    <Compile Include="EntityProvider.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="UserProfileProvider.cs" />
   </ItemGroup>

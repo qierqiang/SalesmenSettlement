@@ -15,6 +15,8 @@ namespace SalesmenSettlement
         //string
         public static string FormatWith(this string source, params object[] args) => string.Format(source, args);
 
+        public static string LowerFirstLetter(this string source) => source.Substring(0, 1).ToLower() + source.Substring(1);
+
         public static bool IsNullOrEmpty(this string source) => string.IsNullOrEmpty(source);
 
         public static bool IsNullOrBlank(this string source) => source.IsNullOrWhiteSpace();
@@ -126,6 +128,21 @@ namespace SalesmenSettlement
                  ctrl.TextChanged -= action;
              };
             ctrl.TextChanged += action;
+        }
+
+        public static Control FindFirstChildControl(this Control container, Func<Control, bool> filter)
+        {
+            foreach (Control c in container.Controls)
+            {
+                if (filter(c))
+                    return c;
+
+                Control result = FindFirstChildControl(c, filter);
+                if (result != null)
+                    return result;
+            }
+
+            return null;
         }
     }
 }

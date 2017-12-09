@@ -14,9 +14,9 @@ namespace SalesmenSettlement.Forms
     {
         public event EventHandler DataSourceChanged;
 
-        private EntityBase _dataSource;
+        private ViewModelBase _dataSource;
 
-        public EntityBase DataSource
+        public ViewModelBase DataSource
         {
             get => _dataSource;
             set
@@ -29,7 +29,17 @@ namespace SalesmenSettlement.Forms
             }
         }
 
-        public virtual void DataBind() { }
+        public EditFormBase() { }
+
+        public EditFormBase(ViewModelBase model)
+        {
+            DataSource = model;
+        }
+
+        public virtual void DataBind()
+        {
+            //if ()
+        }
 
         public virtual bool ValidateForm() { return true; }
 
@@ -37,7 +47,7 @@ namespace SalesmenSettlement.Forms
         {
             if (ValidateForm())
             {
-                ModelProvider.Instance.Save(DataSource);
+                EntityProvider.Instance.Save(DataSource);
             }
             return true;
         }
@@ -55,6 +65,18 @@ namespace SalesmenSettlement.Forms
             {
                 e.Cancel = true;
             }
+        }
+
+        private void InitializeComponent()
+        {
+            this.SuspendLayout();
+            // 
+            // EditFormBase
+            // 
+            this.ClientSize = new System.Drawing.Size(954, 447);
+            this.Name = "EditFormBase";
+            this.ResumeLayout(false);
+
         }
     }
 }

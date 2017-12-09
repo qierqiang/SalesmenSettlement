@@ -1,6 +1,6 @@
-﻿namespace SalesmenSettlement.Forms
+﻿namespace SalesmenSettlement.Client
 {
-    partial class ChangePasswordForm
+    partial class UserManage
     {
         /// <summary>
         /// Required designer variable.
@@ -28,17 +28,9 @@
         /// </summary>
         private void InitializeComponent()
         {
-            this.SuspendLayout();
-            // 
-            // ChangePasswordForm
-            // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
+            this.components = new System.ComponentModel.Container();
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(730, 390);
-            this.Name = "ChangePasswordForm";
-            this.Text = "ChangePasswordForm";
-            this.ResumeLayout(false);
-
+            this.Text = "UserManage";
         }
 
         #endregion

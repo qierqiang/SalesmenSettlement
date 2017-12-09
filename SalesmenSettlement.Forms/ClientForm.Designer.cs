@@ -82,6 +82,7 @@
             this.statusStrip = new System.Windows.Forms.StatusStrip();
             this.toolStripStatusLabel = new System.Windows.Forms.ToolStripStatusLabel();
             this.toolTip = new System.Windows.Forms.ToolTip(this.components);
+            this.changePwdToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.menuStrip.SuspendLayout();
             this.toolStrip.SuspendLayout();
             this.statusStrip.SuspendLayout();
@@ -107,6 +108,7 @@
             // 
             this.fileMenu.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.loginToolStripMenuItem,
+            this.changePwdToolStripMenuItem,
             this.openToolStripMenuItem,
             this.toolStripSeparator3,
             this.saveToolStripMenuItem,
@@ -444,6 +446,7 @@
             this.toolStrip.Size = new System.Drawing.Size(984, 25);
             this.toolStrip.TabIndex = 1;
             this.toolStrip.Text = "ToolStrip";
+            this.toolStrip.Visible = false;
             // 
             // newToolStripButton
             // 
@@ -527,6 +530,13 @@
             this.toolStripStatusLabel.Size = new System.Drawing.Size(32, 17);
             this.toolStripStatusLabel.Text = "状态";
             // 
+            // changePwdToolStripMenuItem
+            // 
+            this.changePwdToolStripMenuItem.Name = "changePwdToolStripMenuItem";
+            this.changePwdToolStripMenuItem.Size = new System.Drawing.Size(165, 22);
+            this.changePwdToolStripMenuItem.Text = "修改密码";
+            this.changePwdToolStripMenuItem.Click += new System.EventHandler(this.changePwdToolStripMenuItem_Click);
+            // 
             // ClientForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
@@ -607,6 +617,7 @@
         private System.Windows.Forms.ToolStripButton printPreviewToolStripButton;
         private System.Windows.Forms.ToolStripButton helpToolStripButton;
         private System.Windows.Forms.ToolTip toolTip;
+        private System.Windows.Forms.ToolStripMenuItem changePwdToolStripMenuItem;
     }
 }
 

@@ -12,7 +12,7 @@ namespace SalesmenSettlement.Forms
 {
     public partial class ChangePasswordForm : EditFormBase
     {
-        public ChangePasswordForm(int i)
+        public ChangePasswordForm(int userID)
         {
             InitializeComponent();
         }
@@ -32,17 +32,19 @@ namespace SalesmenSettlement.Forms
             return base.Submit();
         }
 
-        class ViewModel : MarshalByRefObject
+        public ///////TODO:
+
+        class ViewModel : ViewModelBase
         {
             public long ID { get; set; }
 
-            [EditControlType(typeof(TextBox))]
+            [AutoGenControl(typeof(TextBox), "原密码", beginNewRow: true)]
             public string OldPassword { get; set; }
 
-            [EditControlType(typeof(TextBox))]
+            [AutoGenControl(typeof(TextBox), "新密码", beginNewRow: true)]
             public string NewPassword { get; set; }
 
-            [EditControlType(typeof(TextBox))]
+            [AutoGenControl(typeof(TextBox), "重复", beginNewRow: true)]
             public string RepPassword { get; set; }
         }
     }

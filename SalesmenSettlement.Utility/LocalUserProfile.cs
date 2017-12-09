@@ -49,7 +49,9 @@ namespace SalesmenSettlement.Utility
                 Directory.CreateDirectory(dir);
             }
             //删除已有文件
-            string fileName = dir + profileName + ".dat";
+
+            string fileName = dir + profileName.GetMD5();
+
             if (File.Exists(fileName))
             {
                 File.Delete(fileName);
@@ -58,6 +60,7 @@ namespace SalesmenSettlement.Utility
             File.WriteAllText(fileName, content.Encrypt(userName));
         }
 
+        [Obsolete("XP下已知BUG", true)]
         public static T GetAnonymousTypeProfile<T>(string userName, string profileName, T example)
         {
             string content = GetProfileContent(userName, profileName);
@@ -71,6 +74,7 @@ namespace SalesmenSettlement.Utility
         public static T GetProfile<T>(string userName, string profileName)
         {
             string content = GetProfileContent(userName, profileName);
+
             if (content.IsNullOrWhiteSpace())
             {
                 return default(T);
@@ -90,7 +94,8 @@ namespace SalesmenSettlement.Utility
             }
 
             //找文件
-            string fileName = UserProfileDirecotry + userName + "\\" + profileName + ".dat";
+            string fileName = UserProfileDirecotry + userName + "\\" + profileName.GetMD5();
+
             if (!File.Exists(fileName))
             {
                 return null;
@@ -110,7 +115,7 @@ namespace SalesmenSettlement.Utility
                 throw new ArgumentException("", nameof(profileName));
             }
 
-            string fileName = UserProfileDirecotry + userName + "\\" + profileName + ".dat";
+            string fileName = UserProfileDirecotry + userName + "\\" + profileName;
             File.Delete(fileName);
         }
     }
